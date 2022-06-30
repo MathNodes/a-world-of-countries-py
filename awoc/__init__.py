@@ -20,6 +20,8 @@ import json
 # Importing the pydash module.
 import pydash
 
+# Sys
+import sys
 """
 --------------------------------------------------------
 The AWOC (A World of Countries) class.
@@ -37,6 +39,11 @@ Index
 
 
 class AWOC:
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(base_path, relative_path)
+
 
     # The class constructor.
     # Here we set up some basic properties and import the main Global World Object Data json file (GWOD).
@@ -49,8 +56,7 @@ class AWOC:
         self._relative_GWOD_path = 'data/world.json'
 
         # Building GWOD full relative path.
-        self._GWOD_path = os.path.join(
-            self._script_dir, self._relative_GWOD_path)
+        self._GWOD_path = self.resource_path(self._relative_GWOD_path)
 
         # Km2 to Ml2 Conversion Factor: 1km2 = 0.621371 ml2
         self._km2_to_ml2_conv_fac = 0.621371
